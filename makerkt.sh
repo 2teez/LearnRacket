@@ -86,6 +86,7 @@ while getopts "${optionstring}" opt; do
                         break;;
                     [Rr]* )
                         chmod -x "${filename}"
+                        perl -p -i -e 's|^#!.*$||' "${filename}"
                         racket "${filename}"; break;;
                     * ) echo "Invalid choice. You can only run by pressing 'c', 's', or 'r'."
                 ;;
