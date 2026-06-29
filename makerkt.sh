@@ -24,13 +24,12 @@ function check_file() {
     filename="${1}"
     file_extension="${filename##*.}"
     file_basename="${filename%.*}"
-    [ "${file_extension}" != "rkt" ] && { filename="${file_basename^}.rkt"; }
+    [ "${file_extension}" != "rkt" ] && { filename="${file_basename,,}.rkt"; }
 }
 
-RACKET="module Main
+RACKET="#lang racket
 
-main : IO ()
-main = putStrLn \"Hello, World!\"
+(displayln \"Hello, World!\")
 "
 
 if [ "${#}" -ne 2 ]; then
@@ -45,6 +44,7 @@ while getopts "${optionstring}" opt; do
             echo "Compiling $filename..."
             check_file "${filename}"
 
+            raco make "${filename}"
             ;;
 
         d)
@@ -55,14 +55,21 @@ while getopts "${optionstring}" opt; do
                 case "${yn}" in
                     [Yy]* ) rm -f "${filename}"; break;;
                     [Nn]* ) break;;
-                    * ) echo "${filename} Not deleted..."
+                    * ) echo "${filename} Not deleted. You can only delete by pressing 'y' or 'n'."
                 ;;
             esac
         done
         ;;
+        o)
+            filename="${OPTARG}"
+            echo "Generating standalone Racket file..."
+            check_file "${filename}"
+            echo "${RACKET}" > "${filename}"
+
+            racket "${filename}"
+            ;;
         r)
             filename="${OPTARG}"
-            echo "Running compiled executable..."
             check_file "${filename}"
 
             ;;
