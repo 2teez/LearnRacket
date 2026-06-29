@@ -52,9 +52,9 @@ while getopts "${optionstring}" opt; do
             filename="${OPTARG}"
             echo "Deleting compiled executable..."
 
-            while read -p -r "Are you sure you want to delete ${filename}? (y/n): " yn; do
+            while read -r -p "Are you sure you want to delete ${filename}? (y/n): " yn; do
                 case "${yn}" in
-                    [Yy]* ) rm -f "${filename}"; break;;
+                    [Yy]* ) rm -rf "${filename}"; break;;
                     [Nn]* ) break;;
                     * ) echo "${filename} Not deleted. You can only delete by pressing 'y' or 'n'."
                 ;;
@@ -72,7 +72,7 @@ while getopts "${optionstring}" opt; do
         r)
             filename="${OPTARG}"
             check_file "${filename}"
-            while read -p -r "How would you like to run ${filename}? (compile(c) or run(r)): " choice; do
+            while read -r -p "How would you like to run ${filename}? (compile(c) or run(r)): " choice; do
                 case "${choice}" in
                     [Cc]* ) raco make "${filename}" ; racket "${filename}"; break;;
                     [Rr]* ) racket "${filename}"; break;;
