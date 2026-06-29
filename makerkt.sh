@@ -72,11 +72,12 @@ while getopts "${optionstring}" opt; do
         r)
             filename="${OPTARG}"
             check_file "${filename}"
-            while read -r -p "How would you like to run ${filename}? (compile(c) or run(r)): " choice; do
+            while read -r -p "How would you like to run ${filename}? (compile(c), script(s), run(r)): " choice; do
                 case "${choice}" in
                     [Cc]* ) raco make "${filename}" ; racket "${filename}"; break;;
+                    [Ss]* ) racket "${filename}"; break;;
                     [Rr]* ) racket "${filename}"; break;;
-                    * ) echo "Invalid choice. You can only run by pressing 'r' or 'R'."
+                    * ) echo "Invalid choice. You can only run by pressing 'c', 's', or 'r'."
                 ;;
             esac
         done
