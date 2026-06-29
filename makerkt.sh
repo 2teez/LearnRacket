@@ -84,7 +84,9 @@ while getopts "${optionstring}" opt; do
                         chmod +x "${filename}"
                         "./${filename}"
                         break;;
-                    [Rr]* ) racket "${filename}"; break;;
+                    [Rr]* )
+                        chmod -x "${filename}"
+                        racket "${filename}"; break;;
                     * ) echo "Invalid choice. You can only run by pressing 'c', 's', or 'r'."
                 ;;
             esac
