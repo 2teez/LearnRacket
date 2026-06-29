@@ -75,7 +75,15 @@ while getopts "${optionstring}" opt; do
             while read -r -p "How would you like to run ${filename}? (compile(c), script(s), run(r)): " choice; do
                 case "${choice}" in
                     [Cc]* ) raco make "${filename}" ; racket "${filename}"; break;;
-                    [Ss]* ) racket "${filename}"; break;;
+                    [Ss]* )
+                        # make a tmp file
+                        tmpfile="${filename}.tmp"
+                        echo "#!/usr/bin/env racket" > "${tmpfile}"
+                        cat "${filename}" >> "${tmpfile}"
+                        mv "${tmpfile}" "${filename}"
+                        chmod +x "${filename}"
+                        "./${filename}"
+                        break;;
                     [Rr]* ) racket "${filename}"; break;;
                     * ) echo "Invalid choice. You can only run by pressing 'c', 's', or 'r'."
                 ;;
