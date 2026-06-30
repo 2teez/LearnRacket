@@ -30,3 +30,10 @@
 
 (println (is-large 15))
 (println (is-large 5))
+
+;;
+(define (is-large-if x)
+    (if (> x 10) 'true 'false))
+
+(println (is-large-if 15))
+(println (is-large-if 5))
