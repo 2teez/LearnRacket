@@ -31,9 +31,18 @@
 (println (is-large 15))
 (println (is-large 5))
 
-;;
+;; using an if expression
 (define (is-large-if x)
     (if (> x 10) 'true 'false))
 
 (println (is-large-if 15))
 (println (is-large-if 5))
+
+(define (string-or-number x)
+    (cond ((string? x) 'foo)
+        ((number? x) 'foo)
+        (else 'bar)))
+
+(println (string-or-number "hello"))
+(println (string-or-number 42))
+(println (string-or-number 'james))
