@@ -29,7 +29,7 @@ function check_file() {
 
 RACKET="#lang racket
 
-(displayln \"Hello, World!\")
+(displayln \"Start, Here!\")
 "
 
 if [ "${#}" -ne 2 ]; then
