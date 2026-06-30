@@ -12,4 +12,5 @@
       acc
       (looper (rest lst)
               (cons (fact (first lst)) acc))))
-(println (looper (range 100 0 -3) '())) ;; > '()
+(println (looper (range 100 0 -3) '())) ;;
+(println (looper (reverse (range 100 0 -3)) '())) ;;
