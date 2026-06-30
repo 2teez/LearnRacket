@@ -15,3 +15,18 @@
 (define (add-2-to x) (+ x 2)) ;; function/procedure without the lambda wordings
 
 (writeln (add-2-to 3))
+
+(define (snd lst) (second lst)) ;; <=> (define (snd lst) (car (cdr lst)))
+
+(println (snd '('james 'gosling)))
+
+;; using an if expression
+(println (if (< 3 5) 'true 'false))
+
+;; using a cond expression
+(define (is-large x)
+    (cond ((> x 10) 'true)
+        (else 'false)))
+
+(println (is-large 15))
+(println (is-large 5))
