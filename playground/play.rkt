@@ -12,3 +12,6 @@
 
 (writeln (add-1-to 3))
 
+(define (add-2-to x) (+ x 2)) ;; function/procedure without the lambda wordings
+
+(writeln (add-2-to 3))
