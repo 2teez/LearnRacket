@@ -17,6 +17,7 @@ function usage() {
     echo "-h: show this help message."
     echo "-o: generate standalone Racket file."
     echo "-r: run the compiled executable."
+    echo "-p: create a package in a given directory with the same name."
     exit 1
 }
 
@@ -32,11 +33,30 @@ RACKET="#lang racket
 (displayln \"Start, Here!\")
 "
 
+RACKET_PROJECT="#lang racket
+
+;; define sum-list function
+(define (sum-list lst)
+  (cond ((empty? lst) 0)
+        (else (+ (first lst) (sum-list (rest lst))))))
+;; export sum-list function
+(provide sum-list)
+"
+
+TEST_FILE="#lang racket
+
+;; test sum-list function
+(require sum-list)
+(require rackunit)
+
+(check-equal? (sum-list '(1 2 3)) 6)
+"
+
 if [ "${#}" -ne 2 ]; then
     usage
 fi
 
-optionstring="c:d:o:r:h"
+optionstring="c:d:o:r:p:h"
 while getopts "${optionstring}" opt; do
     case $opt in
         c)
@@ -93,6 +113,29 @@ while getopts "${optionstring}" opt; do
             esac
         done
         ;;
+        p)
+            dir="${OPTARG}"
+            echo "Creating package in ${dir}..."
+            mkdir "${dir}"
+            cd "${dir}" || exit
+            echo "${RACKET_PROJECT}" > "${dir}.rkt"
+            echo "${TEST_FILE}" > "test.rkt"
+            raco pkg init
+            ;;
+        h)
+            usage
+            ;;
+        *)
+            echo "Invalid option: -${OPTARG}" >&2
+            usage
+            ;;
+    esac
+done
+(define (main)
+  )
+" > "test.rkt"
+            raco pkg init
+            ;;
         h)
             usage
             ;;
