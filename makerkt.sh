@@ -43,14 +43,16 @@ RACKET_PROJECT="#lang racket
 (provide sum-list)
 "
 
-TEST_FILE="#lang racket
+function test_file() {
+    echo "#lang racket
 
 ;; test sum-list function
-(require sum-list)
+(require \"${2}\")
 (require rackunit)
 
 (check-equal? (sum-list '(1 2 3)) 6)
-"
+" > "${1}"
+}
 
 if [ "${#}" -ne 2 ]; then
     usage
@@ -115,26 +117,14 @@ while getopts "${optionstring}" opt; do
         ;;
         p)
             dir="${OPTARG}"
+            [ -d "${dir}" ] && { echo "Directory ${dir} already exists."; exit 1; }
             echo "Creating package in ${dir}..."
             mkdir "${dir}"
             cd "${dir}" || exit
             echo "${RACKET_PROJECT}" > "${dir}.rkt"
-            echo "${TEST_FILE}" > "test.rkt"
+            test_file "test.rkt" "${dir}.rkt"
             raco pkg init
-            ;;
-        h)
-            usage
-            ;;
-        *)
-            echo "Invalid option: -${OPTARG}" >&2
-            usage
-            ;;
-    esac
-done
-(define (main)
-  )
-" > "test.rkt"
-            raco pkg init
+            raco test "${dir}.rkt"
             ;;
         h)
             usage
