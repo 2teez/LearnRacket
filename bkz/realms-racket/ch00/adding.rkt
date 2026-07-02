@@ -10,9 +10,10 @@
 ; func: the function to apply to each element
 ; acc: the initial accumulator value
 ; lst: the list to reduce
-(define (reduce func acc lst)
+(define default-acc 0)
+(define (reduce func #:default-acc [acc default-acc] lst)
   (cond ((empty? lst) acc)
-        (else (reduce func (func acc (car lst)) (cdr lst)))
+        (else (reduce func #:default-acc (func acc (car lst)) (cdr lst)))
         ))
 ;; exports the sum-up and reduce functions
 (provide sum-up reduce)
